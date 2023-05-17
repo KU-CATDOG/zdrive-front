@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { fetchGet } from "utils/functions";
 
 function Header() {
   const [logined, setLogined] = useState(false);
@@ -10,8 +11,10 @@ function Header() {
   });
 
   function handleLogout() {
-    sessionStorage.removeItem("studentNumber");
-    document.location.href = "/";
+    fetchGet("/auth/logout").finally(() => {
+      sessionStorage.removeItem("studentNumber");
+      document.location.href = "/";
+    });
   }
 
   return (
