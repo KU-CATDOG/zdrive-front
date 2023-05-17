@@ -26,13 +26,19 @@
   "rules": {
     "react/jsx-filename-extension": 0,
     "no-param-reassign": 0,
+
     "react/prop-types": 1,
     "react/require-default-props": 0,
     "react/no-array-index-key": 0,
     "react/jsx-props-no-spreading": 0,
     "react/forbid-prop-types": 0,
+    "react/jsx-no-bind": 0,
+
+    "react-hooks/exhaustive-deps": 0,
+
     "import/order": 0,
     "no-console": 0,
+    "no-alert": 0,
     "jsx-a11y/anchor-is-valid": 0,
     "prefer-destructuring": 0,
     "no-shadow": 0,
