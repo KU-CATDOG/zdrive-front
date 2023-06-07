@@ -9,7 +9,7 @@ import MainPage from "page/MainPage";
 function App() {
   return (
     <div>
-      <BrowserRouter>
+      <BrowserRouter basename="/zdrive">
         <Header />
         <Routes>
           <Route path="/" element={<LoginPage />} />
