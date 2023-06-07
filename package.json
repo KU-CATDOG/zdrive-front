@@ -1,5 +1,6 @@
 {
   "name": "zdrive-front",
+  "homepage": "/zdrive",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
