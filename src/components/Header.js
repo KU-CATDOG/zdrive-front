@@ -13,7 +13,7 @@ function Header() {
   function handleLogout() {
     fetchGet("/auth/logout").finally(() => {
       sessionStorage.removeItem("studentNumber");
-      document.location.href = "/";
+      document.location.href = "/zdrive";
     });
   }
 
