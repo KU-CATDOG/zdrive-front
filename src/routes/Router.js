@@ -1,6 +1,8 @@
 import LoginPage from "page/LoginPage";
 import MainPage from "page/MainPage";
 import Page404 from "page/Page404";
+import ProjectDetailPage from "page/ProjectDetailPage";
+import ProjectListPage from "page/ProjectListPage";
 import React, { cloneElement } from "react";
 import { useRoutes, Navigate } from "react-router-dom"
 
@@ -10,11 +12,18 @@ function Router() {
       path: 'zdrive',
       children: [
         { element: <Navigate to="/zdrive/login" replace />, index: true },
-        { path: 'login', element: <LoginPage />},
-        { path: 'main', element: <MainPage />},
-        { path: '*', element: <Page404 />}
+        { path: 'login', element: <LoginPage /> },
+        { path: 'main', element: <MainPage /> },
+        {
+          path: 'project',
+          children: [
+            { path: 'list', element: <ProjectListPage /> },
+            { path: 'detail', element: <ProjectDetailPage /> }
+          ]
+        }
       ]
-    }
+    },
+    { path: '*', element: <Page404 />}
   ])
   if(!routes) return null;
 

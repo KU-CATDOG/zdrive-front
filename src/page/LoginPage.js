@@ -2,6 +2,7 @@ import { Button, Form, Container } from "react-bootstrap";
 import React, { useState } from "react";
 import { fetchPost } from "utils/functions";
 import { useNavigate } from "react-router-dom";
+import { PATHS } from "routes/paths";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -18,8 +19,7 @@ function LoginPage() {
 
     if (process.env.REACT_APP_MODE === "D") {
       sessionStorage.setItem("studentNumber", loginData.StudentNumber);
-      // document.location.href = "/zdrive/main";
-      navigate('/zdrive/main');
+      navigate(PATHS.main);
       return;
     }
 
@@ -29,8 +29,7 @@ function LoginPage() {
         // success login action
         sessionStorage.setItem("studentNumber", loginData.StudentNumber);
         // TODO: navigate to main page
-        // document.location.href = "/zdrive/main";
-        navigate('/zdrive/main');
+      navigate(PATHS.main);
       })
       .catch((err) => {
         switch (err) {
