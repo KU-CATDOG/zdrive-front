@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { fetchGet } from "utils/functions";
+import { PATHS } from "routes/paths";
 
 function Header() {
+  const navigate = useNavigate();
   const [logined, setLogined] = useState(false);
 
   useEffect(() => {
@@ -13,7 +16,7 @@ function Header() {
   function handleLogout() {
     fetchGet("/auth/logout").finally(() => {
       sessionStorage.removeItem("studentNumber");
-      document.location.href = "/";
+      navigate(PATHS.root);
     });
   }
 
