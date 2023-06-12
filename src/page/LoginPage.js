@@ -1,6 +1,6 @@
 import { Button, Form, Container } from "react-bootstrap";
 import React, { useState } from "react";
-import { fetchPost } from "utils/functions";
+import { fetchPost, fetchTest } from "utils/functions";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "routes/paths";
 
@@ -17,31 +17,25 @@ function LoginPage() {
   function handleFormSubmit(e) {
     e.preventDefault();
 
-    if (process.env.REACT_APP_MODE === "D") {
-      sessionStorage.setItem("studentNumber", loginData.StudentNumber);
-      navigate(PATHS.main);
-      return;
-    }
-
     fetchPost("/auth/login", loginData)
       .then((res) => {
-        if (!res.ok) throw new Error(res.status);
+        if (!res.ok) {
+          switch (res.status) {
+            case 403:
+              throw new Error("인증되지 않았습니다. 회장단에게 문의해주세요");
+            case 404:
+              throw new Error("로그인에 실패했습니다");
+            default:
+              throw new Error("미확인 오류입니다. 관리자에게 문의해주세요");
+          }
+        }
         // success login action
         sessionStorage.setItem("studentNumber", loginData.StudentNumber);
         // TODO: navigate to main page
-      navigate(PATHS.main);
+        navigate(PATHS.main);
       })
       .catch((err) => {
-        switch (err) {
-          case 403:
-            alert("인증되지 않았습니다. 회장단에게 문의해주세요");
-            break;
-          case 404:
-            alert("로그인에 실패했습니다");
-            break;
-          default:
-            alert("미확인 오류입니다. 관리자에게 문의해주세요");
-        }
+        alert(err.message);
       });
   }
 

@@ -15,7 +15,7 @@ function Header() {
 
   function handleLogout() {
     fetchGet("/auth/logout").finally(() => {
-      sessionStorage.removeItem("studentNumber");
+      sessionStorage.clear();
       navigate(PATHS.root);
     });
   }
