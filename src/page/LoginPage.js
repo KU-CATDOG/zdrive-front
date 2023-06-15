@@ -2,9 +2,12 @@ import { Button, Form, Container, Modal } from "react-bootstrap";
 import React, { useState } from "react";
 import { fetchPost } from "utils/functions";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "features/loginSlice";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loginData, setLoginData] = useState({});
 
   // register modal
@@ -41,7 +44,7 @@ function LoginPage() {
           }
         }
         // success login action
-        sessionStorage.setItem("studentNumber", loginData.StudentNumber);
+        dispatch(login(loginData.StudentNumber));
         // TODO: navigate to main page
         navigate(-1);
       })
