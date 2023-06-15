@@ -1,8 +1,7 @@
 import { Button, Form, Container, Modal } from "react-bootstrap";
 import React, { useState } from "react";
-import { fetchPost, fetchTest } from "utils/functions";
+import { fetchPost } from "utils/functions";
 import { useNavigate } from "react-router-dom";
-import { PATHS } from "routes/paths";
 
 function LoginPage() {
   const navigate = useNavigate();
