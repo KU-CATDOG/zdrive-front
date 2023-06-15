@@ -1,10 +1,18 @@
 import { Button, Form, Container, Modal } from "react-bootstrap";
 import React, { useState } from "react";
 import { fetchPost } from "utils/functions";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "features/loginSlice";
+import { get } from "lodash";
+import { PATHS } from "routes/paths";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { state } = useLocation();
+  const prevRoute = get(state, "prevRoute", PATHS.root);
+
   const [loginData, setLoginData] = useState({});
 
   // register modal
@@ -41,9 +49,9 @@ function LoginPage() {
           }
         }
         // success login action
-        sessionStorage.setItem("studentNumber", loginData.StudentNumber);
+        dispatch(login(loginData.StudentNumber));
         // TODO: navigate to main page
-        navigate(-1);
+        navigate(prevRoute);
       })
       .catch((err) => {
         alert(err.message);

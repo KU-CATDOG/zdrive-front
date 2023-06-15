@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 function MainPage() {
-  const [logined, setLogined] = useState(false);
-
-  useEffect(() => {
-    setLogined(sessionStorage.getItem("studentNumber") !== null);
-  });
+  const logined = useSelector((state) => state.counter.logined);
 
   return <Container>{logined ? <p>logined</p> : <p>not logined</p>}</Container>;
 }

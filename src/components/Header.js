@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { fetchGet } from "utils/functions";
 import { PATHS } from "routes/paths";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "features/loginSlice";
 
 function Header() {
+  const location = useLocation();
   const navigate = useNavigate();
-  const [logined, setLogined] = useState(false);
-
-  useEffect(() => {
-    setLogined(!!sessionStorage.getItem("studentNumber"));
-  });
+  const dispatch = useDispatch();
+  const logined = useSelector((state) => state.counter.logined);
+  const studentNumber = useSelector((state) => state.counter.studentNumber);
 
   function handleLogin() {
-    navigate(PATHS.login);
+    navigate(PATHS.login, {
+      state: {
+        prevRoute: location.pathname,
+      },
+    });
   }
 
   function handleLogout() {
     fetchGet("/auth/logout").finally(() => {
-      sessionStorage.clear();
+      dispatch(logout());
       navigate(PATHS.root);
     });
   }
@@ -31,7 +36,7 @@ function Header() {
         </Navbar.Brand>
         <Nav className="me-auto" />
         <Nav>
-          <Navbar.Text className="me-3">{sessionStorage.getItem("studentNumber")}</Navbar.Text>
+          <Navbar.Text className="me-3">{studentNumber}</Navbar.Text>
           {logined ? (
             <Button size="sm" variant="danger" onClick={handleLogout}>
               로그아웃
