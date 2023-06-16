@@ -75,10 +75,13 @@ function ProjectAddPage() {
           <Form.Label>장르</Form.Label>
           <Form.Control name="Genre" disabled={postingProcess} onChange={handleFormValueChange} />
         </Form.Group>
+        <Form.Text>기타 정보는 저장 후 수정해 주시기 바랍니다</Form.Text>
 
-        <Button className="float-end" type="submit" disabled={postingProcess}>
-          저장
-        </Button>
+        <div className="float-end">
+          <Button type="submit" disabled={postingProcess}>
+            저장
+          </Button>
+        </div>
       </Form>
     </Container>
   );

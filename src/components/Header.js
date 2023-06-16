@@ -31,10 +31,17 @@ function Header() {
   return (
     <Navbar className="mb-2" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#" onClick={() => navigate(PATHS.root)}>
+        <Navbar.Brand href="#m" onClick={() => navigate(PATHS.root)}>
           CATDOG Z-Drive
         </Navbar.Brand>
-        <Nav className="me-auto" />
+        <Nav className="me-auto">
+          <Nav.Link href="#m" onClick={() => navigate(PATHS.root)}>
+            메인
+          </Nav.Link>
+          <Nav.Link href="#p" onClick={() => navigate(PATHS.project.list)}>
+            탐색
+          </Nav.Link>
+        </Nav>
         <Nav>
           <Navbar.Text className="me-3">{studentNumber}</Navbar.Text>
           {logined ? (
