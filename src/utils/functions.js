@@ -1,6 +1,8 @@
 function fetchGet(url) {
   return fetch(process.env.REACT_APP_API_URL + url, {
     method: "GET",
+    mode: "cors",
+    credentials: "include",
   });
 }
 
@@ -17,6 +19,8 @@ function fetchPost(
     method: "POST",
     headers: header,
     body: useRawBody ? data : JSON.stringify(data),
+    mode: "cors",
+    credentials: "include",
   });
 }
 
