@@ -1,10 +1,11 @@
-import LoginPage from "page/LoginPage";
-import MainPage from "page/MainPage";
-import Page404 from "page/Page404";
-import ProjectDetailPage from "page/ProjectDetailPage";
-import ProjectListPage from "page/ProjectListPage";
-import React, { cloneElement } from "react";
+import React, { Suspense, lazy, cloneElement } from "react";
 import { useRoutes, Navigate } from "react-router-dom";
+
+const LoginPage = lazy(() => import("page/LoginPage"));
+const MainPage = lazy(() => import("page/MainPage"));
+const ProjectDetailPage = lazy(() => import("page/ProjectDetailPage"));
+const ProjectListPage = lazy(() => import("page/ProjectListPage"));
+const Page404 = lazy(() => import("page/Page404"));
 
 function Router() {
   const routes = useRoutes([
@@ -29,7 +30,7 @@ function Router() {
 
   const clone = cloneElement(routes, { key: routes.props.children.key });
 
-  return clone;
+  return <Suspense fallback={<div>Loading...</div>}>{clone}</Suspense>;
 }
 
 export default Router;
