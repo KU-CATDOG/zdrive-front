@@ -3,6 +3,7 @@ import { useRoutes, Navigate } from "react-router-dom";
 
 const LoginPage = lazy(() => import("page/LoginPage"));
 const MainPage = lazy(() => import("page/MainPage"));
+const ProjectAddPage = lazy(() => import("page/ProjectAddPage"));
 const ProjectDetailPage = lazy(() => import("page/ProjectDetailPage"));
 const ProjectListPage = lazy(() => import("page/ProjectListPage"));
 const Page404 = lazy(() => import("page/Page404"));
@@ -18,6 +19,7 @@ function Router() {
         {
           path: "project",
           children: [
+            { path: "add", element: <ProjectAddPage /> },
             { path: "list", element: <ProjectListPage /> },
             { path: "detail", element: <ProjectDetailPage /> },
           ],
