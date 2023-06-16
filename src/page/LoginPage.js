@@ -55,7 +55,8 @@ function LoginPage() {
         // success login action
         dispatch(login(loginData.StudentNumber));
         // TODO: navigate to main page
-        navigate(prevRoute);
+        if (prevRoute === PATHS.login) navigate(PATHS.main);
+        else navigate(prevRoute);
       })
       .catch((err) => {
         alert(err.message);

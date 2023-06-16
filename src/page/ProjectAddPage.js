@@ -26,9 +26,11 @@ function ProjectAddPage() {
       return;
     }
 
+    /*
     if (formData.StartDate) {
       formData.StartDate += "T00:00:000Z";
     }
+    */
 
     console.log(formData);
 
