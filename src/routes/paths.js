@@ -11,6 +11,7 @@ export const PATHS = {
   login: path(ZDRIVE, "/login"),
   main: path(ZDRIVE, "/main"),
   project: {
+    add: path(ZDRIVE, "/project/add"),
     list: path(ZDRIVE, "/project/list"),
     detail: path(ZDRIVE, "/project/detail"),
   },
