@@ -1,3 +1,4 @@
+import MDEditor from "@uiw/react-md-editor";
 import { map } from "lodash";
 import React, { useEffect, useState } from "react";
 import { Container, Button, Form, Dropdown, Spinner } from "react-bootstrap";
@@ -118,14 +119,16 @@ function ProjectEditPage() {
             <Form.Text>개발중</Form.Text>
           </Form.Group>
 
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-3" data-color-mode="light">
             <Form.Label>개발 개요</Form.Label>
-            <Form.Control
-              name="description"
-              as="textarea"
-              rows={5}
+            <MDEditor
+              height={400}
               value={projectInfo.description ?? ""}
-              onChange={handleFormValueChange}
+              onChange={(e) => {
+                setProjectInfo((prev) => {
+                  return { ...prev, description: e };
+                });
+              }}
             />
           </Form.Group>
 

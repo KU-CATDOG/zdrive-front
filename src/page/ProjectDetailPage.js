@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "routes/paths";
 import { projectStatusKrEnum } from "utils/enums";
 import { fetchGet } from "utils/functions";
+import MDEditor from "@uiw/react-md-editor";
 
 function ProjectDetailPage() {
   const navigate = useNavigate();
@@ -85,8 +86,8 @@ function ProjectDetailPage() {
               </Row>
               <Row className="mb-2">
                 <Col md={8}>
-                  <div className="w-100 mb-2 p-2" style={{ border: "1px solid lightgray" }}>
-                    {projectInfo.description}
+                  <div data-color-mode="light" className="text-start w-100 mb-2 p-2" style={{ border: "1px solid lightgray" }}>
+                    <MDEditor.Markdown source={projectInfo.description} />
                   </div>
                   <div className="w-100 mb-2 p-2" style={{ border: "1px solid lightgray" }}>
                     {projectInfo.members}
