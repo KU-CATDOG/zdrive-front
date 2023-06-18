@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "routes/paths";
 import { fetchGet } from "utils/functions";
 import { map } from "lodash";
+import { projectStatusKrEnum } from "utils/enums";
 
 function ProjectListPage() {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ function ProjectListPage() {
               <td>{idx + 1}</td>
               <td>{project.name}</td>
               <td>{project.genre}</td>
-              <td>{project.status}</td>
+              <td>{projectStatusKrEnum[project.status]}</td>
             </tr>
           ))}
         </tbody>
