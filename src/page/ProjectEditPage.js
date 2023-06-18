@@ -3,18 +3,17 @@ import { Container, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "routes/paths";
 
-function ProjectDetailPage() {
+function ProjectEditPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
   return (
     <Container>
-      <p>ProjectDetailPage</p>
+      <p>ProjectEditPage</p>
       <p>{id}</p>
-      <Button onClick={() => navigate(`${PATHS.project.edit}/${id}`)}>수정하기</Button>
-      <Button onClick={() => navigate(PATHS.project.list)}>목록으로 돌아가기</Button>
+      <Button onClick={() => navigate(`${PATHS.project.detail}/${id}`)}>상세보기로 돌아가기</Button>
     </Container>
   );
 }
 
-export default ProjectDetailPage;
+export default ProjectEditPage;
