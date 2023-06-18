@@ -26,12 +26,6 @@ function ProjectAddPage() {
       return;
     }
 
-    /*
-    if (formData.StartDate) {
-      formData.StartDate += "T00:00:000Z";
-    }
-    */
-
     console.log(formData);
 
     fetchPost("/project", formData)
@@ -40,7 +34,7 @@ function ProjectAddPage() {
           switch (res.status) {
             case 401:
               navigate(PATHS.login);
-              throw new Error("허용되지 않은 접근입니다");
+              throw new Error("허용되지 않은 접근입니다. 우선 로그인해주세요");
             case 409:
               throw new Error("같은 이름의 게임(프로젝트)이 이미 존재합니다");
             default:

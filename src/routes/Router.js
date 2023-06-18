@@ -6,6 +6,7 @@ const MainPage = lazy(() => import("page/MainPage"));
 const ProjectAddPage = lazy(() => import("page/ProjectAddPage"));
 const ProjectDetailPage = lazy(() => import("page/ProjectDetailPage"));
 const ProjectListPage = lazy(() => import("page/ProjectListPage"));
+const ProjectEditPage = lazy(() => import("page/ProjectEditPage"));
 const Page404 = lazy(() => import("page/Page404"));
 
 function Router() {
@@ -21,7 +22,8 @@ function Router() {
           children: [
             { path: "add", element: <ProjectAddPage /> },
             { path: "list", element: <ProjectListPage /> },
-            { path: "detail", element: <ProjectDetailPage /> },
+            { path: "detail/:id", element: <ProjectDetailPage /> },
+            { path: "edit/:id", element: <ProjectEditPage /> },
           ],
         },
       ],
