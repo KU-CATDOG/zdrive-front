@@ -53,7 +53,12 @@ function LoginPage() {
           }
         }
         // success login action
-        dispatch(login(loginData.StudentNumber));
+        dispatch(
+          login({
+            studentNumber: loginData.StudentNumber,
+            userId: loginData.id,
+          }),
+        );
         // TODO: navigate to main page
         if (prevRoute === PATHS.login) navigate(PATHS.main);
         else navigate(prevRoute);

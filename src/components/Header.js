@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { fetchGet } from "utils/functions";
 import { PATHS } from "routes/paths";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "features/loginSlice";
+import { login, logout } from "features/loginSlice";
 
 function Header() {
   const location = useLocation();
@@ -27,6 +27,26 @@ function Header() {
       navigate(PATHS.root);
     });
   }
+
+  function checkUserLogined() {
+    fetchGet("/auth/check").then(async (res) => {
+      if (res.ok) {
+        const contentType = res.headers.get("content-type");
+        if (!(contentType && contentType.indexOf("application/json") !== -1)) return;
+        const userData = await res.json();
+        dispatch(
+          login({
+            studentNumber: userData.studentNumber,
+            userId: userData.id,
+          }),
+        );
+      }
+    });
+  }
+
+  useEffect(() => {
+    checkUserLogined();
+  }, []);
 
   return (
     <Navbar className="mb-2" bg="dark" variant="dark">

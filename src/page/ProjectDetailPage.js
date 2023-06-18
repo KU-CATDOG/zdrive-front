@@ -5,10 +5,12 @@ import { PATHS } from "routes/paths";
 import { projectStatusKrEnum } from "utils/enums";
 import { fetchGet } from "utils/functions";
 import MDEditor from "@uiw/react-md-editor";
+import { useSelector } from "react-redux";
 
 function ProjectDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const userId = useSelector((state) => state.counter.userId);
 
   const [projectInfo, setProjectInfo] = useState({});
 
@@ -52,7 +54,7 @@ function ProjectDetailPage() {
             <Button className="me-auto" onClick={() => navigate(PATHS.project.list)}>
               돌아가기
             </Button>
-            <Button onClick={() => navigate(`${PATHS.project.edit}/${id}`)}>수정</Button>
+            {userId === projectInfo.userId && <Button onClick={() => navigate(`${PATHS.project.edit}/${id}`)}>수정</Button>}
           </Stack>
           <div className="text-center">
             <h1>{projectInfo.name}</h1>
@@ -61,21 +63,21 @@ function ProjectDetailPage() {
                 <Col>
                   <Carousel activeIndex={imageIndex} onSelect={setImageIndex}>
                     <Carousel.Item>
-                      <div style={{ height: "300px", backgroundColor: "black" }} />
+                      <div style={{ height: "400px", backgroundColor: "black" }} />
                       <Carousel.Caption>
                         <h3>First slide label</h3>
                         <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                       </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
-                      <div style={{ height: "300px", backgroundColor: "black" }} />
+                      <div style={{ height: "400px", backgroundColor: "black" }} />
                       <Carousel.Caption>
                         <h3>Second slide label</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                       </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
-                      <div style={{ height: "300px", backgroundColor: "black" }} />
+                      <div style={{ height: "400px", backgroundColor: "black" }} />
                       <Carousel.Caption>
                         <h3>Third slide label</h3>
                         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
