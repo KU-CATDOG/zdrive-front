@@ -36,10 +36,13 @@ function Header() {
         const userData = await res.json();
         dispatch(
           login({
+            name: userData.name,
             studentNumber: userData.studentNumber,
             userId: userData.id,
           }),
         );
+      } else if (res.status === 404) {
+        fetchGet("/auth/logout");
       }
     });
   }

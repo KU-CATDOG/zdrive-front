@@ -39,7 +39,7 @@ function LoginPage() {
     setLoginProgress(true);
 
     fetchPost("/auth/login", loginData)
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
           switch (res.status) {
             case 400:
@@ -53,10 +53,12 @@ function LoginPage() {
           }
         }
         // success login action
+        const userData = await res.json();
         dispatch(
           login({
-            studentNumber: loginData.StudentNumber,
-            userId: loginData.id,
+            name: userData.name,
+            studentNumber: userData.studentNumber,
+            userId: userData.id,
           }),
         );
         // TODO: navigate to main page
