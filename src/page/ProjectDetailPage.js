@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button, Spinner, Col, Row, Carousel, Stack, Table } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "routes/paths";
 import { projectStatusKrEnum } from "utils/enums";
 import { fetchGet } from "utils/functions";
 import MDEditor from "@uiw/react-md-editor";
 import { useSelector } from "react-redux";
+import { get } from "lodash";
 
 function ProjectDetailPage() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { state } = useLocation();
+  const prevRoute = get(state, "prevRoute", PATHS.project.list);
   const userId = useSelector((state) => state.counter.userId);
 
   const [projectInfo, setProjectInfo] = useState({});
@@ -47,11 +50,10 @@ function ProjectDetailPage() {
 
   return (
     <Container>
-      <p>ProjectDetailPage / ID: {id}</p>
       {projectInfo.id ? (
         <>
           <Stack direction="horizontal">
-            <Button className="me-auto" onClick={() => navigate(PATHS.project.list)}>
+            <Button className="me-auto" onClick={() => navigate(prevRoute)}>
               돌아가기
             </Button>
             {userId === projectInfo.userId && <Button onClick={() => navigate(`${PATHS.project.edit}/${id}`)}>수정</Button>}
@@ -89,9 +91,13 @@ function ProjectDetailPage() {
               <Row className="mb-2">
                 <Col md={8}>
                   <div data-color-mode="light" className="text-start w-100 mb-2 p-2" style={{ border: "1px solid lightgray" }}>
+                    <h4>게임 설명</h4>
+                    <hr />
                     <MDEditor.Markdown source={projectInfo.description} />
                   </div>
-                  <div className="w-100 mb-2 p-2" style={{ border: "1px solid lightgray" }}>
+                  <div className="w-100 mb-2 p-2 text-start" style={{ border: "1px solid lightgray" }}>
+                    <h4>개발진 소개</h4>
+                    <hr />
                     {projectInfo.members}
                   </div>
                 </Col>

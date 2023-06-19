@@ -51,7 +51,27 @@ function fetchDelete(url) {
 }
 
 function fetchTest() {
-  return fetch(`${process.env.REACT_APP_API_URL}/test`);
+  return fetch(`${process.env.REACT_APP_API_URL}/check`);
 }
 
-export { fetchTest, fetchGet, fetchPost, fetchPut, fetchDelete };
+const periodStartYear = 2018;
+function getPeriodList() {
+  const toReturn = [];
+  const currentYear = new Date().getFullYear();
+
+  for (let i = periodStartYear; i < currentYear + 1; i += 1) {
+    toReturn.push(`${i}-1`);
+    toReturn.push(`${i}-2`);
+  }
+  return toReturn;
+}
+function getCurrentPeriod() {
+  const current = new Date();
+  const currentYear = current.getFullYear();
+  const currentMonth = current.getMonth();
+  // 3월 1일 ~ 8월 31일 => 1학기 => 1
+  const semester = currentMonth >= 2 && currentMonth < 8 ? 1 : 2;
+  return `${currentYear}-${semester}`;
+}
+
+export { fetchTest, fetchGet, fetchPost, fetchPut, fetchDelete, getPeriodList, getCurrentPeriod };

@@ -1,11 +1,12 @@
 import { map, slice } from "lodash";
 import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PATHS } from "routes/paths";
 import { fetchGet } from "utils/functions";
 
 function ProjectListView({ fetchUrl = "/project/list?period=2023-1", cutoutCount = 5 }) {
+  const location = useLocation();
   const navigate = useNavigate();
   const [currentList, setCurrentList] = useState([]);
   const [cutouted, setCutouted] = useState(false);
@@ -38,22 +39,37 @@ function ProjectListView({ fetchUrl = "/project/list?period=2023-1", cutoutCount
 
   return (
     <>
-      <Table hover>
-        <thead>
-          <tr>
-            <th>이름</th>
-            <th>장르</th>
-          </tr>
-        </thead>
-        <tbody>
-          {map(currentList, (project) => (
-            <tr key={project.id} onClick={() => navigate(`${PATHS.project.detail}/${project.id}`)}>
-              <td>{project.name}</td>
-              <td>{project.genre}</td>
+      {currentList.length > 0 ? (
+        <Table hover>
+          <thead>
+            <tr>
+              <th>이름</th>
+              <th>장르</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {map(currentList, (project) => (
+              <tr
+                key={project.id}
+                onClick={() =>
+                  navigate(`${PATHS.project.detail}/${project.id}`, {
+                    state: {
+                      prevRoute: location.pathname,
+                    },
+                  })
+                }
+              >
+                <td>{project.name}</td>
+                <td>{project.genre ?? <span style={{ color: "lightgray" }}>미작성</span>}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <p className="text-center" style={{ color: "gray" }}>
+          열람 가능한 프로젝트가 없습니다
+        </p>
+      )}
       {cutouted && (
         <Button size="sm" variant="link" className="float-end" onClick={() => navigate(PATHS.project.list)}>
           더보기
