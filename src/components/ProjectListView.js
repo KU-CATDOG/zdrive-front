@@ -4,6 +4,7 @@ import { Button, Table } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATHS } from "routes/paths";
 import { fetchGet } from "utils/functions";
+import NoValueCheck from "./NoValueSpan";
 
 function ProjectListView({ fetchUrl = "/project/list?period=2023-1", cutoutCount = 5 }) {
   const location = useLocation();
@@ -60,7 +61,9 @@ function ProjectListView({ fetchUrl = "/project/list?period=2023-1", cutoutCount
                 }
               >
                 <td>{project.name}</td>
-                <td>{project.genre ?? <span style={{ color: "lightgray" }}>미작성</span>}</td>
+                <td>
+                  <NoValueCheck>{project.genre}</NoValueCheck>
+                </td>
               </tr>
             ))}
           </tbody>

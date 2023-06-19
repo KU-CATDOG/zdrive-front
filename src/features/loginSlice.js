@@ -10,6 +10,7 @@ export const loginSlice = createSlice({
   },
   reducers: {
     login: (state, action) => {
+      console.log(action.payload);
       state.name = action.payload?.name ?? "";
       state.studentNumber = action.payload?.studentNumber ?? "";
       state.userId = action.payload?.userId ?? -1;

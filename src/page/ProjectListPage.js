@@ -35,7 +35,7 @@ function ProjectListPage() {
         get Project List
       </Button>
       <Container className="my-3" />
-      <Table className="table table-bordered">
+      <Table bordered hover>
         <thead>
           <tr>
             <th>#</th>

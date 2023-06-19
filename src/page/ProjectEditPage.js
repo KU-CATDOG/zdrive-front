@@ -1,10 +1,10 @@
 import MDEditor from "@uiw/react-md-editor";
 import { map } from "lodash";
 import React, { useEffect, useState } from "react";
-import { Container, Button, Form, Dropdown, Spinner } from "react-bootstrap";
+import { Container, Button, Form, Dropdown, Spinner, Row, Col } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "routes/paths";
-import { projectStatusKrEnum } from "utils/enums";
+import { projectStatusKrEnum, visibilityKrEnum } from "utils/enums";
 import { fetchDelete, fetchGet, fetchPut } from "utils/functions";
 
 function ProjectEditPage() {
@@ -98,18 +98,30 @@ function ProjectEditPage() {
 
   return (
     <Container>
-      <Button onClick={() => navigate(`${PATHS.project.detail}/${id}`)}>상세보기로 돌아가기</Button>
-      {projectLoaded && (
-        <Button variant="danger" onClick={handleDeleteButtonClick}>
-          삭제하기
-        </Button>
-      )}
-      <p>ProjectEditPage / ID: {id}</p>
+      <Row>
+        <Col>
+          <Button onClick={() => navigate(`${PATHS.project.detail}/${id}`)}>상세보기로 돌아가기</Button>
+          {projectLoaded && (
+            <Button className="float-end" variant="danger" onClick={handleDeleteButtonClick}>
+              삭제하기
+            </Button>
+          )}
+        </Col>
+      </Row>
+      <Row className="mt-3">
+        <Col>
+          <h2>프로젝트 정보 수정</h2>
+          <hr />
+        </Col>
+      </Row>
+
       {projectLoaded ? (
         <Form onSubmit={handleFormSubmit}>
-          <h1>기본정보</h1>
+          <h4>기본정보</h4>
           <Form.Group className="mb-3">
-            <Form.Label>게임명 (프로젝트명)</Form.Label>
+            <Form.Label>
+              게임명 (프로젝트명) <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control required name="name" value={projectInfo.name} onChange={handleFormValueChange} />
           </Form.Group>
 
@@ -131,7 +143,6 @@ function ProjectEditPage() {
               }}
             />
           </Form.Group>
-
           <Form.Group className="mb-3">
             <Form.Label>팀원</Form.Label>
             <br />
@@ -139,57 +150,81 @@ function ProjectEditPage() {
           </Form.Group>
 
           <hr />
-          <h2>세부정보</h2>
-
+          <h4>세부정보</h4>
           <Form.Group className="mb-3">
             <Form.Label>장르</Form.Label>
             <Form.Control name="genre" value={projectInfo.genre ?? ""} onChange={handleFormValueChange} />
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>프로젝트 상태</Form.Label>
-            <Dropdown>
-              <Dropdown.Toggle>{projectStatusKrEnum[projectInfo.status ?? 0]}</Dropdown.Toggle>
+          <Row>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>프로젝트 상태</Form.Label>
+                <Dropdown>
+                  <Dropdown.Toggle>{projectStatusKrEnum[projectInfo.status ?? 0]}</Dropdown.Toggle>
 
-              <Dropdown.Menu>
-                {map(projectStatusKrEnum, (enumString, idx) => (
-                  <Dropdown.Item
-                    name="status"
-                    key={idx}
-                    onClick={(e) => {
-                      setProjectInfo((prev) => {
-                        return { ...prev, [e.target.name]: idx };
-                      });
-                    }}
-                  >
-                    {enumString}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Form.Group>
+                  <Dropdown.Menu>
+                    {map(projectStatusKrEnum, (enumString, idx) => (
+                      <Dropdown.Item
+                        name="status"
+                        key={idx}
+                        onClick={(e) => {
+                          setProjectInfo((prev) => {
+                            return { ...prev, [e.target.name]: idx };
+                          });
+                        }}
+                      >
+                        {enumString}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>외부 공개 설정</Form.Label>
+                <Form.Check
+                  type="switch"
+                  name="visibility"
+                  label={visibilityKrEnum[projectInfo.visibility ?? 0]}
+                  onChange={(e) => {
+                    setProjectInfo((prev) => {
+                      return { ...prev, [e.target.name]: e.target.checked ? 0 : 1 };
+                    });
+                  }}
+                  defaultChecked={projectInfo.visibility === 0}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-          <Form.Group className="mb-3">
-            <Form.Label>시작일</Form.Label>
-            <Form.Control
-              required
-              name="startDate"
-              type="date"
-              value={projectInfo.startDate ?? new Date().toISOString().split("T")[0]}
-              onChange={handleFormValueChange}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>종료일</Form.Label>
-            <Form.Control
-              required
-              name="endDate"
-              type="date"
-              value={projectInfo.endDate ?? new Date().toISOString().split("T")[0]}
-              onChange={handleFormValueChange}
-            />
-          </Form.Group>
+          <Row>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>시작일</Form.Label>
+                <Form.Control
+                  required
+                  name="startDate"
+                  type="date"
+                  value={projectInfo.startDate ?? new Date().toISOString().split("T")[0]}
+                  onChange={handleFormValueChange}
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Label>종료일</Form.Label>
+                <Form.Control
+                  required
+                  name="endDate"
+                  type="date"
+                  value={projectInfo.endDate ?? new Date().toISOString().split("T")[0]}
+                  onChange={handleFormValueChange}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
           <Form.Group className="mb-3">
             <Form.Label>엔진</Form.Label>

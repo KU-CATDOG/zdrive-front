@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Container, Button, Spinner, Col, Row, Carousel, Stack, Table } from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "routes/paths";
-import { projectStatusKrEnum } from "utils/enums";
+import { projectStatusKrEnum, visibilityKrEnum } from "utils/enums";
 import { fetchGet } from "utils/functions";
 import MDEditor from "@uiw/react-md-editor";
 import { useSelector } from "react-redux";
 import { get } from "lodash";
+import NoValueCheck from "components/NoValueSpan";
 
 function ProjectDetailPage() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ function ProjectDetailPage() {
           <div className="text-center">
             <h1>{projectInfo.name}</h1>
             <Container>
-              <Row className="mb-2">
+              <Row className="my-4">
                 <Col>
                   <Carousel activeIndex={imageIndex} onSelect={setImageIndex}>
                     <Carousel.Item>
@@ -106,7 +107,9 @@ function ProjectDetailPage() {
                     <tbody>
                       <tr>
                         <th>장르</th>
-                        <td>{projectInfo.genre}</td>
+                        <td>
+                          <NoValueCheck>{projectInfo.genre}</NoValueCheck>
+                        </td>
                       </tr>
                       <tr>
                         <th>상태</th>
@@ -122,11 +125,19 @@ function ProjectDetailPage() {
                       </tr>
                       <tr>
                         <th>개발엔진</th>
-                        <td>{projectInfo.engine}</td>
+                        <td>
+                          <NoValueCheck>{projectInfo.engine}</NoValueCheck>
+                        </td>
                       </tr>
                       <tr>
                         <th>Z드라이브 위치</th>
-                        <td>{projectInfo.fileSrc}</td>
+                        <td>
+                          <NoValueCheck>{projectInfo.fileSrc}</NoValueCheck>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>외부 공개 설정</th>
+                        <td>{visibilityKrEnum[projectInfo.visibility ?? 0]}</td>
                       </tr>
                     </tbody>
                   </Table>

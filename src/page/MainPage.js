@@ -33,7 +33,9 @@ function UnauthMainPage() {
     <>
       <Row className="mt-4">
         <Col>
-          <h2 className="text-center">캣독의 개발 프로젝트를 한눈에</h2>
+          <h2 className="text-center">
+            <b>캣독의 개발 프로젝트를 한눈에!</b>
+          </h2>
         </Col>
       </Row>
       <Row className="mt-4">
