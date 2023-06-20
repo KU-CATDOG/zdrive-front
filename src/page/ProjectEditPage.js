@@ -1,7 +1,7 @@
 import MDEditor from "@uiw/react-md-editor";
 import { map } from "lodash";
 import React, { useEffect, useState } from "react";
-import { Container, Button, Form, Dropdown, Spinner, Row, Col } from "react-bootstrap";
+import { Container, Button, Form, Dropdown, Spinner, Row, Col, Modal } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "routes/paths";
 import { projectStatusKrEnum, visibilityKrEnum } from "utils/enums";
@@ -14,6 +14,8 @@ function ProjectEditPage() {
   const [projectLoaded, setProjectLoaded] = useState(false);
   const [projectInfo, setProjectInfo] = useState({});
   const [editSubmited, setEditSubmited] = useState(false);
+
+  const [showMemberManage, setShowMemberManage] = useState(false);
 
   function handleFormValueChange(e) {
     setProjectInfo((prev) => {
@@ -146,7 +148,11 @@ function ProjectEditPage() {
           <Form.Group className="mb-3">
             <Form.Label>팀원</Form.Label>
             <br />
-            <Form.Text>개발중</Form.Text>
+            <Button onClick={() => setShowMemberManage(true)}>팀원 관리창 열기</Button>
+            <Modal show={showMemberManage} onHide={() => setShowMemberManage(false)}>
+              <Modal.Header closeButton>팀원 관리</Modal.Header>
+              <Modal.Body>hello world</Modal.Body>
+            </Modal>
           </Form.Group>
 
           <hr />
