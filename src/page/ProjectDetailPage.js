@@ -6,8 +6,8 @@ import { projectStatusKrEnum, visibilityKrEnum } from "utils/enums";
 import { fetchGet } from "utils/functions";
 import MDEditor from "@uiw/react-md-editor";
 import { useSelector } from "react-redux";
-import { get } from "lodash";
-import NoValueCheck from "components/NoValueSpan";
+import { get, map } from "lodash";
+import NoValueCheck from "components/NoValueCheck";
 
 function ProjectDetailPage() {
   const navigate = useNavigate();
@@ -99,7 +99,9 @@ function ProjectDetailPage() {
                   <div className="w-100 mb-2 p-2 text-start" style={{ border: "1px solid lightgray" }}>
                     <h4>개발진 소개</h4>
                     <hr />
-                    {projectInfo.members}
+                    {map(projectInfo.members, (member) => (
+                      <p key={member.id}>{member.studentNum.name}</p>
+                    ))}
                   </div>
                 </Col>
                 <Col md={4}>

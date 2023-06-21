@@ -1,4 +1,5 @@
 import MDEditor from "@uiw/react-md-editor";
+import MemberManagement from "components/MemberManagement";
 import { map } from "lodash";
 import React, { useEffect, useState } from "react";
 import { Container, Button, Form, Dropdown, Spinner, Row, Col, Modal } from "react-bootstrap";
@@ -46,6 +47,7 @@ function ProjectEditPage() {
         fetchedProjectInfo.startDate = data.startDate?.split("T")[0];
         fetchedProjectInfo.endDate = data.endDate?.split("T")[0];
 
+        console.log(fetchedProjectInfo);
         setProjectInfo(fetchedProjectInfo);
         setProjectLoaded(true);
       })
@@ -149,9 +151,29 @@ function ProjectEditPage() {
             <Form.Label>팀원</Form.Label>
             <br />
             <Button onClick={() => setShowMemberManage(true)}>팀원 관리창 열기</Button>
-            <Modal show={showMemberManage} onHide={() => setShowMemberManage(false)}>
+            <Modal
+              backdrop="static"
+              size="lg"
+              show={showMemberManage}
+              onHide={() => {
+                if (window.confirm("저장되지 않은 정보는 삭제됩니다")) {
+                  setShowMemberManage(false);
+                }
+              }}
+            >
               <Modal.Header closeButton>팀원 관리</Modal.Header>
-              <Modal.Body>hello world</Modal.Body>
+              <Modal.Body>
+                <MemberManagement
+                  projectId={id}
+                  projectOwnerId={projectInfo.userId}
+                  baseMemberList={projectInfo.members ?? []}
+                  onSubmit={(members) => {
+                    setProjectInfo((prev) => {
+                      return { ...prev, members };
+                    });
+                  }}
+                />
+              </Modal.Body>
             </Modal>
           </Form.Group>
 
