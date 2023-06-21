@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Container, Button, Spinner, Col, Row, Carousel, Stack, Table } from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "routes/paths";
-import { projectStatusKrEnum, visibilityKrEnum } from "utils/enums";
+import { memberRoleKrEnum, projectStatusKrEnum, visibilityKrEnum } from "utils/enums";
 import { fetchGet } from "utils/functions";
 import MDEditor from "@uiw/react-md-editor";
 import { useSelector } from "react-redux";
-import { get, map } from "lodash";
+import { get, map, sortBy } from "lodash";
 import NoValueCheck from "components/NoValueCheck";
 
 function ProjectDetailPage() {
@@ -99,9 +99,22 @@ function ProjectDetailPage() {
                   <div className="w-100 mb-2 p-2 text-start" style={{ border: "1px solid lightgray" }}>
                     <h4>개발진 소개</h4>
                     <hr />
-                    {map(projectInfo.members, (member) => (
-                      <p key={member.id}>{member.studentNum.name}</p>
-                    ))}
+                    <Table>
+                      <tbody>
+                        {map(sortBy(projectInfo.members, "index"), (member) => (
+                          <tr key={member.id}>
+                            <td className="col-3">
+                              <h5>{member.studentNum.name}</h5>
+                              <h6 style={{ color: "lightslategray" }}>{member.studentNumber}</h6>
+                            </td>
+                            <td className="col-3">{memberRoleKrEnum[member.role]}</td>
+                            <td className="col-6">
+                              <NoValueCheck>{member.description}</NoValueCheck>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
                   </div>
                 </Col>
                 <Col md={4}>
