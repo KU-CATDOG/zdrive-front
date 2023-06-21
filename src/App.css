@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.Disable-arrows::-webkit-outer-spin-button,
+.Disable-arrows::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.Disable-arrows[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}

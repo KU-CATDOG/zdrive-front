@@ -4,7 +4,7 @@ import { Button, Table } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATHS } from "routes/paths";
 import { fetchGet } from "utils/functions";
-import NoValueCheck from "./NoValueSpan";
+import NoValueCheck from "./NoValueCheck";
 
 function ProjectListView({ fetchUrl = "/project/list?period=2023-1", cutoutCount = 5 }) {
   const location = useLocation();
