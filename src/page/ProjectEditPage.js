@@ -1,8 +1,9 @@
 import MDEditor from "@uiw/react-md-editor";
+import ImageManagement from "components/ImageManagement";
 import MemberManagement from "components/MemberManagement";
 import { map } from "lodash";
 import React, { useEffect, useState } from "react";
-import { Container, Button, Form, Dropdown, Spinner, Row, Col, Modal } from "react-bootstrap";
+import { Container, Button, Form, Dropdown, Spinner, Row, Col } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "routes/paths";
 import { projectStatusKrEnum, visibilityKrEnum } from "utils/enums";
@@ -15,8 +16,6 @@ function ProjectEditPage() {
   const [projectLoaded, setProjectLoaded] = useState(false);
   const [projectInfo, setProjectInfo] = useState({});
   const [editSubmited, setEditSubmited] = useState(false);
-
-  const [showMemberManage, setShowMemberManage] = useState(false);
 
   function handleFormValueChange(e) {
     setProjectInfo((prev) => {
@@ -113,59 +112,54 @@ function ProjectEditPage() {
         </Col>
       </Row>
       <Row className="mt-3">
-        <Col>
+        <Col md={{ offset: 2, span: 8 }}>
           <h2>프로젝트 정보 수정</h2>
-          <hr />
         </Col>
       </Row>
+      <hr />
 
       {projectLoaded ? (
         <Form onSubmit={handleFormSubmit}>
-          <h4>기본정보</h4>
-          <Form.Group className="mb-3">
-            <Form.Label>
-              게임명 (프로젝트명) <span className="text-danger">*</span>
-            </Form.Label>
-            <Form.Control required name="name" value={projectInfo.name} onChange={handleFormValueChange} />
-          </Form.Group>
+          <Row>
+            <Col md={{ offset: 2, span: 8 }}>
+              <h4>기본정보</h4>
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  게임명 (프로젝트명) <span className="text-danger">*</span>
+                </Form.Label>
+                <Form.Control required name="name" value={projectInfo.name} onChange={handleFormValueChange} />
+              </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>이미지</Form.Label>
-            <br />
-            <Form.Text>개발중</Form.Text>
-          </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>이미지</Form.Label>
+                <ImageManagement
+                  projectId={id}
+                  baseImageList={projectInfo.images ?? []}
+                  onSubmit={(images) => {
+                    setProjectInfo((prev) => {
+                      return { ...prev, images };
+                    });
+                  }}
+                />
+              </Form.Group>
 
-          <Form.Group className="mb-3" data-color-mode="light">
-            <Form.Label>개발 개요</Form.Label>
-            <MDEditor
-              height={400}
-              value={projectInfo.description ?? ""}
-              onChange={(e) => {
-                setProjectInfo((prev) => {
-                  return { ...prev, description: e };
-                });
-              }}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>팀원</Form.Label>
-            <br />
-            <Button onClick={() => setShowMemberManage(true)}>팀원 관리창 열기</Button>
-            <Modal
-              backdrop="static"
-              size="lg"
-              show={showMemberManage}
-              onHide={() => {
-                if (window.confirm("저장되지 않은 정보는 삭제됩니다")) {
-                  setShowMemberManage(false);
-                }
-              }}
-            >
-              <Modal.Header closeButton>팀원 관리</Modal.Header>
-              <Modal.Body>
+              <Form.Group className="mb-3" data-color-mode="light">
+                <Form.Label>개발 개요</Form.Label>
+                <MDEditor
+                  height={400}
+                  value={projectInfo.description ?? ""}
+                  onChange={(e) => {
+                    setProjectInfo((prev) => {
+                      return { ...prev, description: e };
+                    });
+                  }}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>팀원</Form.Label>
                 <MemberManagement
                   projectId={id}
-                  projectOwnerId={projectInfo.userId}
                   baseMemberList={projectInfo.members ?? []}
                   onSubmit={(members) => {
                     setProjectInfo((prev) => {
@@ -173,19 +167,24 @@ function ProjectEditPage() {
                     });
                   }}
                 />
-              </Modal.Body>
-            </Modal>
-          </Form.Group>
+              </Form.Group>
+            </Col>
+          </Row>
 
           <hr />
-          <h4>세부정보</h4>
-          <Form.Group className="mb-3">
-            <Form.Label>장르</Form.Label>
-            <Form.Control name="genre" value={projectInfo.genre ?? ""} onChange={handleFormValueChange} />
-          </Form.Group>
 
           <Row>
-            <Col>
+            <Col md={{ offset: 2, span: 8 }}>
+              <h4>세부정보</h4>
+              <Form.Group className="mb-3">
+                <Form.Label>장르</Form.Label>
+                <Form.Control name="genre" value={projectInfo.genre ?? ""} onChange={handleFormValueChange} />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col md={{ offset: 2, span: 4 }}>
               <Form.Group className="mb-3">
                 <Form.Label>프로젝트 상태</Form.Label>
                 <Dropdown>
@@ -209,7 +208,7 @@ function ProjectEditPage() {
                 </Dropdown>
               </Form.Group>
             </Col>
-            <Col>
+            <Col md={4}>
               <Form.Group className="mb-3">
                 <Form.Label>외부 공개 설정</Form.Label>
                 <Form.Check
@@ -228,7 +227,7 @@ function ProjectEditPage() {
           </Row>
 
           <Row>
-            <Col>
+            <Col md={{ offset: 2, span: 4 }}>
               <Form.Group className="mb-3">
                 <Form.Label>시작일</Form.Label>
                 <Form.Control
@@ -240,7 +239,7 @@ function ProjectEditPage() {
                 />
               </Form.Group>
             </Col>
-            <Col>
+            <Col md={4}>
               <Form.Group className="mb-3">
                 <Form.Label>종료일</Form.Label>
                 <Form.Control
@@ -254,21 +253,25 @@ function ProjectEditPage() {
             </Col>
           </Row>
 
-          <Form.Group className="mb-3">
-            <Form.Label>엔진</Form.Label>
-            <Form.Control name="engine" value={projectInfo.engine ?? ""} onChange={handleFormValueChange} />
-          </Form.Group>
+          <Row>
+            <Col md={{ offset: 2, span: 8 }}>
+              <Form.Group className="mb-3">
+                <Form.Label>엔진</Form.Label>
+                <Form.Control name="engine" value={projectInfo.engine ?? ""} onChange={handleFormValueChange} />
+              </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>동아리 Z드라이브 경로</Form.Label>
-            <Form.Control name="fileSrc" value={projectInfo.fileSrc ?? ""} onChange={handleFormValueChange} />
-          </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>동아리 Z드라이브 경로</Form.Label>
+                <Form.Control name="fileSrc" value={projectInfo.fileSrc ?? ""} onChange={handleFormValueChange} />
+              </Form.Group>
 
-          <div className="float-end mb-4">
-            <Button type="submit" disabled={editSubmited}>
-              {editSubmited ? <Spinner animation="border" size="sm" /> : "저장"}
-            </Button>
-          </div>
+              <div className="float-end mb-4">
+                <Button type="submit" disabled={editSubmited}>
+                  {editSubmited ? <Spinner animation="border" size="sm" /> : "저장"}
+                </Button>
+              </div>
+            </Col>
+          </Row>
         </Form>
       ) : (
         <p>로딩중</p>

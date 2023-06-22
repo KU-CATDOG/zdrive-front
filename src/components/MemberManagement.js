@@ -205,7 +205,7 @@ function MemberManagement({
   return typeof projectId === "number" ? (
     <span className="text-danger">Project Id를 찾을 수 없습니다</span>
   ) : (
-    <Form>
+    <>
       <Table>
         <thead>
           <tr>
@@ -301,10 +301,14 @@ function MemberManagement({
         </tbody>
       </Table>
       {!memberForms.length && <p>멤버가 없습니다</p>}
-      <Button disabled={isFetching} onClick={handleSubmitForm}>
-        {isFetching ? <Spinner animation="border" size="sm" /> : "저장"}
-      </Button>
-    </Form>
+      <Stack direction="horizontal" gap={3}>
+        <div className="ms-auto" />
+        <Form.Text>저장하지 않은 정보는 사라집니다</Form.Text>
+        <Button disabled={isFetching} onClick={handleSubmitForm}>
+          {isFetching ? <Spinner animation="border" size="sm" /> : "팀원 정보 저장"}
+        </Button>
+      </Stack>
+    </>
   );
 }
 
