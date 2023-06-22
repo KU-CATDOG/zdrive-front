@@ -1,7 +1,8 @@
 import { concat, filter, find, isEmpty, map, sortBy } from "lodash";
 import React, { useEffect, useState } from "react";
-import { Button, Form, Spinner, Stack, Table } from "react-bootstrap";
+import { Button, Form, Modal, Spinner, Stack, Table } from "react-bootstrap";
 import { fetchDelete, fetchPost, fetchPut } from "utils/functions";
+import ImageView from "./ImageView";
 
 function ImageManagement({
   projectId,
@@ -16,6 +17,8 @@ function ImageManagement({
   const [isFetching, setIsFetching] = useState(false);
 
   const [fileToUpload, setFileToUpload] = useState([]);
+
+  const [showPreview, setShowPreview] = useState("");
 
   useEffect(() => {
     setImageForms(
@@ -158,7 +161,15 @@ function ImageManagement({
             <tr key={image.imageSrc}>
               <td>{image.index}</td>
               <td>{image.imageSrc}</td>
-              <td>image</td>
+              <td>
+                <Button
+                  onClick={() => {
+                    setShowPreview(image.imageSrc?.slice(1, -1));
+                  }}
+                >
+                  미리보기
+                </Button>
+              </td>
               <td>
                 <Stack direction="horizontal" gap={1}>
                   <Button size="sm" disabled={image.index === 0} onClick={() => exchangeIndex(image.index, image.index - 1)}>
@@ -178,7 +189,6 @@ function ImageManagement({
               </td>
             </tr>
           ))}
-
           <tr>
             <td />
             <td colSpan={2}>
@@ -221,8 +231,7 @@ function ImageManagement({
                       }
 
                       const imagePath = await res.text();
-                      // "filePath" 의 형태라서 양쪽의 "" 를 빼줌
-                      addImage(imagePath.slice(1, -1));
+                      addImage(imagePath);
                     })
                     .catch((err) => {
                       alert(err.message);
@@ -246,6 +255,20 @@ function ImageManagement({
           {isFetching ? <Spinner animation="border" size="sm" /> : "이미지 정보 저장"}
         </Button>
       </Stack>
+
+      <Modal
+        size="lg"
+        centered
+        show={showPreview.length > 0}
+        onHide={() => {
+          setShowPreview("");
+        }}
+      >
+        <Modal.Header closeButton>{showPreview}</Modal.Header>
+        <Modal.Body>
+          <ImageView url={showPreview} />
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
