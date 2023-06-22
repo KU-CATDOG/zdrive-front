@@ -1,7 +1,8 @@
+/* eslint-disable no-bitwise */
 import { concat, filter, find, findIndex, isEmpty, map, sortBy } from "lodash";
 import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Form, Spinner, Stack, Table } from "react-bootstrap";
-import { memberRoleKrEnum } from "utils/enums";
+import { getMemberRoleString, memberRoleKrFlag } from "utils/enums";
 import { fetchDelete, fetchGet, fetchPost, fetchPut } from "utils/functions";
 
 function MemberManagement({
@@ -222,17 +223,28 @@ function MemberManagement({
               <td>{member.index}</td>
               <td>{member.name}</td>
               <td>
-                <Dropdown>
+                <Dropdown autoClose="outside">
                   <Dropdown.Toggle size="sm" variant="success" id="dropdown-basic">
-                    {memberRoleKrEnum[member.role]}
+                    {getMemberRoleString(member.role)}
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    {map(memberRoleKrEnum, (role, index) => (
-                      <Dropdown.Item key={role} onClick={() => handleFormValueChange(member.index, "role", index)}>
-                        {role}
-                      </Dropdown.Item>
-                    ))}
+                    {map(memberRoleKrFlag, (role, index) => {
+                      const roleFlag = 1 << index;
+                      return (
+                        <Dropdown.Item
+                          key={role}
+                          onClick={() => {
+                            const roleContains = roleFlag & member.role;
+                            const newRoleValue = roleContains ? member.role & ~roleFlag : member.role | roleFlag;
+                            handleFormValueChange(member.index, "role", newRoleValue);
+                            console.log(roleFlag);
+                          }}
+                        >
+                          {roleFlag & member.role ? "O" : "X"} {role}
+                        </Dropdown.Item>
+                      );
+                    })}
                   </Dropdown.Menu>
                 </Dropdown>
               </td>

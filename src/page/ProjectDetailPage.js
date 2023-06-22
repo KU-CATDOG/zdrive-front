@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Button, Spinner, Col, Row, Carousel, Stack, Table } from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "routes/paths";
-import { memberRoleKrEnum, projectStatusKrEnum, visibilityKrEnum } from "utils/enums";
+import { getMemberRoleString, projectStatusKrEnum, visibilityKrEnum } from "utils/enums";
 import { fetchGet } from "utils/functions";
 import MDEditor from "@uiw/react-md-editor";
 import { useSelector } from "react-redux";
@@ -92,7 +92,9 @@ function ProjectDetailPage() {
                               <h5>{member.studentNum.name}</h5>
                               <h6 style={{ color: "lightslategray" }}>{member.studentNumber}</h6>
                             </td>
-                            <td className="col-3">{memberRoleKrEnum[member.role]}</td>
+                            <td className="col-3" style={{ wordBreak: "keep-all" }}>
+                              <NoValueCheck>{getMemberRoleString(member.role)}</NoValueCheck>
+                            </td>
                             <td className="col-6">
                               <NoValueCheck>{member.description}</NoValueCheck>
                             </td>
