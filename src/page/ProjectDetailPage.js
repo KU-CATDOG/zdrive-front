@@ -8,6 +8,7 @@ import MDEditor from "@uiw/react-md-editor";
 import { useSelector } from "react-redux";
 import { get, map, sortBy } from "lodash";
 import NoValueCheck from "components/NoValueCheck";
+import ImageView from "components/ImageView";
 
 function ProjectDetailPage() {
   const navigate = useNavigate();
@@ -64,28 +65,12 @@ function ProjectDetailPage() {
             <Container>
               <Row className="my-4">
                 <Col>
-                  <Carousel activeIndex={imageIndex} onSelect={setImageIndex}>
-                    <Carousel.Item>
-                      <div style={{ height: "400px", backgroundColor: "black" }} />
-                      <Carousel.Caption>
-                        <h3>First slide label</h3>
-                        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                      </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                      <div style={{ height: "400px", backgroundColor: "black" }} />
-                      <Carousel.Caption>
-                        <h3>Second slide label</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                      </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                      <div style={{ height: "400px", backgroundColor: "black" }} />
-                      <Carousel.Caption>
-                        <h3>Third slide label</h3>
-                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                      </Carousel.Caption>
-                    </Carousel.Item>
+                  <Carousel variant="dark" activeIndex={imageIndex} onSelect={setImageIndex}>
+                    {map(projectInfo.images, (image) => (
+                      <Carousel.Item key={image.imageSrc}>
+                        <ImageView width="100%" height="500px" style={{ objectFit: "contain" }} url={image.imageSrc?.slice(1, -1)} />
+                      </Carousel.Item>
+                    ))}
                   </Carousel>
                 </Col>
               </Row>
