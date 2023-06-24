@@ -59,6 +59,7 @@ function ProjectListView({ fetchUrl = "/project/list?period=2023-1", cutoutCount
                     },
                   })
                 }
+                style={{ cursor: 'pointer' }}
               >
                 <td>{project.name}</td>
                 <td>

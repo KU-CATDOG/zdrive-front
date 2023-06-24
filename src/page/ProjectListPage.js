@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Button, Container, Table } from "react-bootstrap";
+import React, { useEffect, useMemo, useState } from "react";
+import { Button, Container, Table, Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "routes/paths";
-import { fetchGet } from "utils/functions";
+import { fetchGet, getCurrentPeriod, getPeriodList } from "utils/functions";
 import { map } from "lodash";
 import { projectStatusKrEnum } from "utils/enums";
 
 function ProjectListPage() {
   const navigate = useNavigate();
   const [currentList, setCurrentList] = useState([]);
+  const [period, setPeriod] = useState(getCurrentPeriod());
+  const periodList = useMemo(() => getPeriodList().reverse(), []);
 
   function getProjectList() {
-    fetchGet("/project/list")
+    fetchGet(`/project/list?period=${period}`)
       .then((res) => {
         return res.json();
       })
@@ -29,11 +31,31 @@ function ProjectListPage() {
 
   return (
     <Container>
-      <p>ProjectListPage</p>
-      <Button onClick={() => navigate(PATHS.project.add)}>to Project Add</Button>
-      <Button className="ms-3" onClick={() => getProjectList()}>
-        get Project List
-      </Button>
+      <div className="mt-4 mb-3">
+        <h3>프로젝트 목록</h3>
+      </div>
+      <Container className="px-0" style={{ display: 'flex', direction: 'row', justifyContent: 'space-between' }}>
+        <Container className="px-0" style={{ display: 'flex', direction: 'row', gap: '8px'}}>
+          <Dropdown>
+            <Dropdown.Toggle className="btn-light" style={{ border: "1px solid lightgray" }}>{period ?? periodList[0]}</Dropdown.Toggle>
+            <Dropdown.Menu>
+              {map(periodList, (period, idx) => (
+                <Dropdown.Item
+                  name={period}
+                  key={idx}
+                  onClick={(e) => {
+                    setPeriod(e.target.name);
+                  }}
+                >
+                  {period}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+          <Button style={{minWidth: '60px'}} onClick={() => getProjectList()}>조회</Button>
+        </Container>
+        <Button style={{minWidth: '60px'}} onClick={() => navigate(PATHS.project.add)}>추가</Button>
+      </Container>
       <Container className="my-3" />
       <Table bordered hover>
         <thead>
@@ -46,7 +68,7 @@ function ProjectListPage() {
         </thead>
         <tbody>
           {map(currentList, (project, idx) => (
-            <tr key={idx} onClick={() => navigate(`${PATHS.project.detail}/${project.id}`)}>
+            <tr key={idx} onClick={() => navigate(`${PATHS.project.detail}/${project.id}`)} style={{ cursor: 'pointer' }}>
               <td>{idx + 1}</td>
               <td>{project.name}</td>
               <td>{project.genre}</td>

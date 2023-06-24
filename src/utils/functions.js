@@ -65,6 +65,7 @@ function getPeriodList() {
   }
   return toReturn;
 }
+
 function getCurrentPeriod() {
   const current = new Date();
   const currentYear = current.getFullYear();
