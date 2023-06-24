@@ -1,4 +1,6 @@
+import AboutUsPage from "page/AboutUsPage";
 import React, { Suspense, lazy, cloneElement } from "react";
+import { Spinner } from "react-bootstrap";
 import { useRoutes, Navigate } from "react-router-dom";
 
 const LoginPage = lazy(() => import("page/LoginPage"));
@@ -26,6 +28,7 @@ function Router() {
             { path: "edit/:id", element: <ProjectEditPage /> },
           ],
         },
+        { path: "about", element: <AboutUsPage /> },
       ],
     },
     { path: "*", element: <Page404 /> },
@@ -34,7 +37,19 @@ function Router() {
 
   const clone = cloneElement(routes, { key: routes.props.children.key });
 
-  return <Suspense fallback={<div>Loading...</div>}>{clone}</Suspense>;
+  return (
+    <Suspense
+      fallback={
+        <div className="text-center">
+          <Spinner animation="border" size="lg" />
+          <br />
+          Loading...
+        </div>
+      }
+    >
+      {clone}
+    </Suspense>
+  );
 }
 
 export default Router;

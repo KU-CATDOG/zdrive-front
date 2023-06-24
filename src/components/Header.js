@@ -64,6 +64,9 @@ function Header() {
           <Nav.Link href="#p" onClick={() => navigate(PATHS.project.list)}>
             탐색
           </Nav.Link>
+          <Nav.Link href="#a" onClick={() => navigate(PATHS.about)}>
+            About Us
+          </Nav.Link>
         </Nav>
         <Nav>
           <Navbar.Text className="me-3">{studentNumber}</Navbar.Text>

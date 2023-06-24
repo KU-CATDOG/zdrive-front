@@ -16,4 +16,5 @@ export const PATHS = {
     detail: path(ZDRIVE, "/project/detail"),
     edit: path(ZDRIVE, "/project/edit"),
   },
+  about: path(ZDRIVE, "/about"),
 };
