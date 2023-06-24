@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { getCurrentPeriod } from "utils/functions";
 
 function LoginedMainPage() {
+  const studentNumber = useSelector((state) => state.counter.studentNumber);
+
   return (
     <Row className="mt-4">
       <Col md={6} className="p-2">
@@ -18,10 +20,7 @@ function LoginedMainPage() {
         <div className="p-2" style={{ border: "1px solid lightgray" }}>
           <h4 className="text-center">내가 소속된 프로젝트</h4>
           <hr />
-          {
-            // TODO: 임시로 적당히 넣어둠, api 대기중
-          }
-          <ProjectListView fetchUrl="/project/list?period=2022-2" />
+          <ProjectListView fetchUrl={`/user/project/${studentNumber}`} />
         </div>
       </Col>
     </Row>
