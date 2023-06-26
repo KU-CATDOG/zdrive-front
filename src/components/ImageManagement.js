@@ -1,4 +1,4 @@
-import { concat, filter, find, forEach, isEmpty, map, sortBy } from "lodash";
+import { concat, filter, find, isEmpty, map, sortBy } from "lodash";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal, Spinner, Stack, Table } from "react-bootstrap";
 import { fetchDelete, fetchPost, fetchPut } from "utils/functions";

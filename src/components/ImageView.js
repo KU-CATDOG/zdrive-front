@@ -38,7 +38,7 @@ function ImageView(props) {
     };
   }, [url]);
 
-  return imageUrl.length === 0 ? <p>이미지 없음</p> : <img {...props} src={imageUrl} alt={url} />;
+  return imageUrl.length === 0 ? <p>이미지 없음</p> : <img width="100%" {...props} src={imageUrl} alt={url} />;
 }
 
 export default ImageView;
