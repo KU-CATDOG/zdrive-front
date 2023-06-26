@@ -66,9 +66,14 @@ function ProjectDetailPage() {
               <Row className="my-4">
                 <Col>
                   <Carousel variant="dark" activeIndex={imageIndex} onSelect={setImageIndex}>
-                    {map(projectInfo.images, (image) => (
+                    {map(sortBy(projectInfo.images, "index"), (image) => (
                       <Carousel.Item key={image.imageSrc}>
-                        <ImageView width="100%" height="500px" style={{ objectFit: "contain" }} url={image.imageSrc?.slice(1, -1)} />
+                        <ImageView
+                          width="100%"
+                          height="500px"
+                          style={{ objectFit: "contain" }}
+                          url={`images/${image.imageSrc?.slice(1, -1)}`}
+                        />
                       </Carousel.Item>
                     ))}
                   </Carousel>

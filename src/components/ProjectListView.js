@@ -36,7 +36,7 @@ function ProjectListView({
         }
       })
       .catch((err) => {
-        alert(err.message);
+        console.error(err);
       });
   }
 

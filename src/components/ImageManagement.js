@@ -1,4 +1,4 @@
-import { concat, filter, find, isEmpty, map, sortBy } from "lodash";
+import { concat, filter, find, forEach, isEmpty, map, sortBy } from "lodash";
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal, Spinner, Stack, Table } from "react-bootstrap";
 import { fetchDelete, fetchPost, fetchPut } from "utils/functions";
@@ -38,17 +38,25 @@ function ImageManagement({
    */
 
   function exchangeIndex(callerIndex, targetIndex) {
-    const caller = imageForms[callerIndex];
-    const target = imageForms[targetIndex];
-    caller.index = targetIndex;
-    caller.isDirty = true;
-    target.index = callerIndex;
-    target.isDirty = true;
+    try {
+      const caller = imageForms[callerIndex];
+      const target = imageForms[targetIndex];
+      caller.index = targetIndex;
+      caller.isDirty = true;
+      target.index = callerIndex;
+      target.isDirty = true;
 
-    const targetArr = [...imageForms];
-    targetArr[callerIndex] = target;
-    targetArr[targetIndex] = caller;
-    setImageForms(targetArr);
+      const targetArr = [...imageForms];
+      targetArr[callerIndex] = target;
+      targetArr[targetIndex] = caller;
+      setImageForms(targetArr);
+    } catch {
+      setImageForms(
+        map(imageForms, (image, index) => {
+          return { ...image, index, isDirty: true };
+        }),
+      );
+    }
   }
 
   async function handleSubmitForm(e) {
@@ -164,7 +172,7 @@ function ImageManagement({
               <td>
                 <Button
                   onClick={() => {
-                    setShowPreview(image.imageSrc?.slice(1, -1));
+                    setShowPreview(`images/${image.imageSrc?.slice(1, -1)}`);
                   }}
                 >
                   미리보기
