@@ -39,17 +39,25 @@ function MemberManagement({
   }
 
   function exchangeIndex(callerIndex, targetIndex) {
-    const caller = memberForms[callerIndex];
-    const target = memberForms[targetIndex];
-    caller.index = targetIndex;
-    caller.isDirty = true;
-    target.index = callerIndex;
-    target.isDirty = true;
+    try {
+      const caller = memberForms[callerIndex];
+      const target = memberForms[targetIndex];
+      caller.index = targetIndex;
+      caller.isDirty = true;
+      target.index = callerIndex;
+      target.isDirty = true;
 
-    const targetArr = [...memberForms];
-    targetArr[callerIndex] = target;
-    targetArr[targetIndex] = caller;
-    setMemberForms(targetArr);
+      const targetArr = [...memberForms];
+      targetArr[callerIndex] = target;
+      targetArr[targetIndex] = caller;
+      setMemberForms(targetArr);
+    } catch {
+      setMemberForms(
+        map(memberForms, (member, index) => {
+          return { ...member, index, isDirty: true };
+        }),
+      );
+    }
   }
 
   async function handleSubmitForm(e) {

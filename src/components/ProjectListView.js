@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PATHS } from "routes/paths";
 import { fetchGet } from "utils/functions";
 import NoValueCheck from "./NoValueCheck";
+import { useDispatch } from "react-redux";
+import { logout } from "features/loginSlice";
 
 function ProjectListView({
   fetchUrl = "/project/list?period=2023-1",
@@ -14,6 +16,7 @@ function ProjectListView({
 }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [currentList, setCurrentList] = useState([]);
   const [cutouted, setCutouted] = useState(false);
 
@@ -21,7 +24,14 @@ function ProjectListView({
     fetchGet(fetchUrl)
       .then((res) => {
         if (!res.ok) {
-          throw new Error(res.status);
+          switch (res.status) {
+            case 401:
+              dispatch(logout());
+              navigate(PATHS.root);
+              throw new Error(res.status);
+            default:
+              throw new Error(res.status);
+          }
         }
         return res.json();
       })
