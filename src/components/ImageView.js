@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { fetchGet } from "utils/functions";
 
 function ImageView(props) {
   const { url } = props;
@@ -15,10 +16,7 @@ function ImageView(props) {
     }
 
     // TODO: 이부분 대충 되게만 해둔거라 어떻게 될질 모름
-    fetch(`${process.env.REACT_APP_API_URL}/uploads/${url}`, {
-      method: "GET",
-      mode: "cors",
-    })
+    fetchGet(`/${url}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(res.status);
