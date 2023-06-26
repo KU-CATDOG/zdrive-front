@@ -1,4 +1,4 @@
-import { Button, Form, Container, Modal } from "react-bootstrap";
+import { Button, Form, Container, Modal, Col, Row } from "react-bootstrap";
 import React, { useState } from "react";
 import { fetchPost } from "utils/functions";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -39,7 +39,7 @@ function LoginPage() {
     setLoginProgress(true);
 
     fetchPost("/auth/login", loginData)
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) {
           switch (res.status) {
             case 400:
@@ -53,7 +53,14 @@ function LoginPage() {
           }
         }
         // success login action
-        dispatch(login(loginData.StudentNumber));
+        const userData = await res.json();
+        dispatch(
+          login({
+            name: userData.name,
+            studentNumber: userData.studentNumber,
+            userId: userData.id,
+          }),
+        );
         // TODO: navigate to main page
         if (prevRoute === PATHS.login) navigate(PATHS.main);
         else navigate(prevRoute);
@@ -90,7 +97,7 @@ function LoginPage() {
       })
       .then((registerData) => {
         console.log(registerData);
-        alert("회원가입이 완료되었습니다");
+        alert("회원가입이 완료되었습니다. 회원 승인은 회장단에게 문의해주세요");
         setShowRegister(false);
       })
       .catch((err) => {
@@ -104,24 +111,37 @@ function LoginPage() {
   return (
     <>
       <Container>
-        <Form>
-          <Form.Group>
-            <Form.Label>학번</Form.Label>
-            <Form.Control placeholder="ex) 2023320XXX" name="StudentNumber" onChange={handleFormValueChange} />
-          </Form.Group>
+        <Row>
+          <Col>
+            <h4 className="mt-4 text-center">
+              <b>Welcome to CATDOG</b>
+            </h4>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={{ offset: 3, span: 6 }} className="mt-3" style={{ border: "1px solid lightgray" }}>
+            <Form>
+              <Form.Group className="mt-3">
+                <Form.Label>학번</Form.Label>
+                <Form.Control placeholder="ex) 2023320XXX" name="StudentNumber" onChange={handleFormValueChange} />
+              </Form.Group>
 
-          <Form.Group>
-            <Form.Label>PW</Form.Label>
-            <Form.Control type="password" name="Password" onChange={handleFormValueChange} />
-          </Form.Group>
+              <Form.Group className="mt-3">
+                <Form.Label>PW</Form.Label>
+                <Form.Control type="password" name="Password" onChange={handleFormValueChange} />
+              </Form.Group>
 
-          <Button disabled={loginProgress} onClick={() => setShowRegister(true)}>
-            회원가입
-          </Button>
-          <Button type="submit" disabled={loginProgress} onClick={handleFormSubmit}>
-            로그인
-          </Button>
-        </Form>
+              <div className="my-3 float-end">
+                <Button className="ms-auto me-2" disabled={loginProgress} onClick={() => setShowRegister(true)}>
+                  회원가입
+                </Button>
+                <Button type="submit" disabled={loginProgress} onClick={handleFormSubmit}>
+                  로그인
+                </Button>
+              </div>
+            </Form>
+          </Col>
+        </Row>
       </Container>
 
       {
@@ -157,8 +177,12 @@ function LoginPage() {
               <Form.Control name="Name" onChange={handleRegisterFormValue} />
             </Form.Group>
 
+            <br />
+            <Form.Text>회장단의 승인 후 사용(로그인 등)이 가능합니다.</Form.Text>
+            <br />
+            <Form.Text>회원가입 이후 문의해주세요.</Form.Text>
             <hr />
-            <Button type="submit" disabled={registerProgress} onClick={handleRegisterFormSubmit}>
+            <Button className="float-end" type="submit" disabled={registerProgress} onClick={handleRegisterFormSubmit}>
               회원가입
             </Button>
           </Form>

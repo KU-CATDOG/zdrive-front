@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "routes/paths";
 import { fetchPost } from "utils/functions";
@@ -26,12 +26,6 @@ function ProjectAddPage() {
       return;
     }
 
-    /*
-    if (formData.StartDate) {
-      formData.StartDate += "T00:00:000Z";
-    }
-    */
-
     console.log(formData);
 
     fetchPost("/project", formData)
@@ -40,7 +34,7 @@ function ProjectAddPage() {
           switch (res.status) {
             case 401:
               navigate(PATHS.login);
-              throw new Error("허용되지 않은 접근입니다");
+              throw new Error("허용되지 않은 접근입니다. 우선 로그인해주세요");
             case 409:
               throw new Error("같은 이름의 게임(프로젝트)이 이미 존재합니다");
             default:
@@ -59,32 +53,46 @@ function ProjectAddPage() {
   }
 
   return (
-    <Container>
-      <Form onSubmit={handleFormSubmit}>
-        <Form.Group className="mb-3">
-          <Form.Label>
-            게임명 (프로젝트명) <span className="text-danger">*</span>
-          </Form.Label>
-          <Form.Control required name="Name" disabled={postingProcess} onChange={handleFormValueChange} />
-        </Form.Group>
+    <Container className="p-2">
+      <Row>
+        <Col>
+          <h2>게임(프로젝트) 추가</h2>
+          <hr />
+        </Col>
+      </Row>
+      <Row>
+        <Col md={{ offset: 3, span: 6 }}>
+          <Form onSubmit={handleFormSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>
+                게임명 (프로젝트명) <span className="text-danger">*</span>
+              </Form.Label>
+              <Form.Control required name="Name" disabled={postingProcess} onChange={handleFormValueChange} />
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>시작일</Form.Label>
-          <Form.Control name="StartDate" disabled={postingProcess} type="date" onChange={handleFormValueChange} />
-        </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>시작일</Form.Label>
+              <Form.Control name="StartDate" disabled={postingProcess} type="date" onChange={handleFormValueChange} />
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>장르</Form.Label>
-          <Form.Control name="Genre" disabled={postingProcess} onChange={handleFormValueChange} />
-        </Form.Group>
-        <Form.Text>기타 정보는 저장 후 수정해 주시기 바랍니다</Form.Text>
+            <Form.Group className="mb-3">
+              <Form.Label>장르</Form.Label>
+              <Form.Control as="textarea" name="Genre" disabled={postingProcess} onChange={handleFormValueChange} />
+            </Form.Group>
 
-        <div className="float-end">
-          <Button type="submit" disabled={postingProcess}>
-            저장
-          </Button>
-        </div>
-      </Form>
+            <br />
+            <Form.Text>기타 정보는 저장 후 수정해 주시기 바랍니다</Form.Text>
+            <br />
+            <Form.Text>기본적으로 외부에 공개되도록 설정되어있습니다</Form.Text>
+
+            <div className="mt-3 float-end">
+              <Button type="submit" disabled={postingProcess}>
+                저장
+              </Button>
+            </div>
+          </Form>
+        </Col>
+      </Row>
     </Container>
   );
 }
