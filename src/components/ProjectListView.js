@@ -6,7 +6,12 @@ import { PATHS } from "routes/paths";
 import { fetchGet } from "utils/functions";
 import NoValueCheck from "./NoValueCheck";
 
-function ProjectListView({ fetchUrl = "/project/list?period=2023-1", cutoutCount = 5 }) {
+function ProjectListView({
+  fetchUrl = "/project/list?period=2023-1",
+  cutoutCount = 5,
+  listProcessing = (prjList) => prjList,
+  useCutout = true,
+}) {
   const location = useLocation();
   const navigate = useNavigate();
   const [currentList, setCurrentList] = useState([]);
@@ -22,11 +27,12 @@ function ProjectListView({ fetchUrl = "/project/list?period=2023-1", cutoutCount
       })
       .then((data) => {
         if (data.length) {
-          if (data.length > cutoutCount) {
+          let processed = listProcessing(data);
+          if (useCutout && processed.length > cutoutCount) {
             setCutouted(true);
-            slice(data, 0, cutoutCount);
+            processed = slice(processed, 0, cutoutCount);
           }
-          setCurrentList(data);
+          setCurrentList(processed);
         }
       })
       .catch((err) => {
@@ -59,7 +65,7 @@ function ProjectListView({ fetchUrl = "/project/list?period=2023-1", cutoutCount
                     },
                   })
                 }
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
               >
                 <td>{project.name}</td>
                 <td>

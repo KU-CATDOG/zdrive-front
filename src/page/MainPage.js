@@ -1,4 +1,5 @@
 import ProjectListView from "components/ProjectListView";
+import { filter } from "lodash";
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -13,14 +14,14 @@ function LoginedMainPage() {
         <div className="p-2" style={{ border: "1px solid lightgray" }}>
           <h4 className="text-center">이번 분기의 프로젝트</h4>
           <hr />
-          <ProjectListView fetchUrl={`/project/list?period=${getCurrentPeriod()}`} />
+          <ProjectListView fetchUrl={`/project/list?period=${getCurrentPeriod()}`} useCutout={false} />
         </div>
       </Col>
       <Col md={6} className="p-2">
         <div className="p-2" style={{ border: "1px solid lightgray" }}>
           <h4 className="text-center">내가 소속된 프로젝트</h4>
           <hr />
-          <ProjectListView fetchUrl={`/user/project/${studentNumber}`} />
+          <ProjectListView fetchUrl={`/user/project/${studentNumber}`} useCutout={false} />
         </div>
       </Col>
     </Row>
@@ -51,10 +52,12 @@ function UnauthMainPage() {
           <div className="p-2" style={{ border: "1px solid lightgray" }}>
             <h4 className="text-center">진행중인 전체 프로젝트</h4>
             <hr />
-            {
-              // TODO: 임시로 적당히 넣어둠, api 대기중
-            }
-            <ProjectListView fetchUrl="/project/list?period=2022-2" />
+            <ProjectListView
+              fetchUrl="/project/list"
+              listProcessing={(prjList) => {
+                return filter(prjList, (prj) => prj.status === 1);
+              }}
+            />
           </div>
         </Col>
       </Row>
