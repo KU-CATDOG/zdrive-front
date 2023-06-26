@@ -55,7 +55,13 @@ function Header() {
     <Navbar className="mb-2" bg="dark" variant="dark" collapseOnSelect expand="md">
       <Container>
         <Navbar.Brand href="#m" onClick={() => navigate(PATHS.root)}>
-          <img src="apple-icon-precomposed.png" width={30} height={30} className="d-inline-block align-top me-2" alt="CATDOG logo" />
+          <img
+            src="/zdrive/apple-icon-precomposed.png"
+            width={30}
+            height={30}
+            className="d-inline-block align-top me-2"
+            alt="CATDOG logo"
+          />
           CATDOG Z-Drive
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
