@@ -5,9 +5,11 @@ import { PATHS } from "routes/paths";
 import { fetchGet, getCurrentPeriod, getPeriodList } from "utils/functions";
 import { map } from "lodash";
 import { projectStatusKrEnum } from "utils/enums";
+import { useSelector } from "react-redux";
 
 function ProjectListPage() {
   const navigate = useNavigate();
+  const logined = useSelector((state) => state.counter.logined);
   const [currentList, setCurrentList] = useState([]);
   const [period, setPeriod] = useState(getCurrentPeriod());
   const periodList = useMemo(() => getPeriodList().reverse(), []);
@@ -34,10 +36,12 @@ function ProjectListPage() {
       <div className="mt-4 mb-3">
         <h3>프로젝트 목록</h3>
       </div>
-      <Container className="px-0" style={{ display: 'flex', direction: 'row', justifyContent: 'space-between' }}>
-        <Container className="px-0" style={{ display: 'flex', direction: 'row', gap: '8px'}}>
+      <Container className="px-0" style={{ display: "flex", direction: "row", justifyContent: "space-between" }}>
+        <Container className="px-0" style={{ display: "flex", direction: "row", gap: "8px" }}>
           <Dropdown>
-            <Dropdown.Toggle className="btn-light" style={{ border: "1px solid lightgray" }}>{period ?? periodList[0]}</Dropdown.Toggle>
+            <Dropdown.Toggle className="btn-light" style={{ border: "1px solid lightgray" }}>
+              {period ?? periodList[0]}
+            </Dropdown.Toggle>
             <Dropdown.Menu>
               {map(periodList, (period, idx) => (
                 <Dropdown.Item
@@ -52,9 +56,15 @@ function ProjectListPage() {
               ))}
             </Dropdown.Menu>
           </Dropdown>
-          <Button style={{minWidth: '60px'}} onClick={() => getProjectList()}>조회</Button>
+          <Button style={{ minWidth: "60px" }} onClick={() => getProjectList()}>
+            조회
+          </Button>
         </Container>
-        <Button style={{minWidth: '60px'}} onClick={() => navigate(PATHS.project.add)}>추가</Button>
+        {logined && (
+          <Button style={{ minWidth: "60px" }} onClick={() => navigate(PATHS.project.add)}>
+            추가
+          </Button>
+        )}
       </Container>
       <Container className="my-3" />
       <Table bordered hover>
@@ -68,7 +78,7 @@ function ProjectListPage() {
         </thead>
         <tbody>
           {map(currentList, (project, idx) => (
-            <tr key={idx} onClick={() => navigate(`${PATHS.project.detail}/${project.id}`)} style={{ cursor: 'pointer' }}>
+            <tr key={idx} onClick={() => navigate(`${PATHS.project.detail}/${project.id}`)} style={{ cursor: "pointer" }}>
               <td>{idx + 1}</td>
               <td>{project.name}</td>
               <td>{project.genre}</td>
