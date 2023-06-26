@@ -14,14 +14,14 @@ function LoginedMainPage() {
         <div className="p-2" style={{ border: "1px solid lightgray" }}>
           <h4 className="text-center">이번 분기의 프로젝트</h4>
           <hr />
-          <ProjectListView fetchUrl={`/project/list?period=${getCurrentPeriod()}`} useCutout={false} />
+          <ProjectListView fetchUrl={`/project/list?period=${getCurrentPeriod()}`} />
         </div>
       </Col>
       <Col md={6} className="p-2">
         <div className="p-2" style={{ border: "1px solid lightgray" }}>
           <h4 className="text-center">내가 소속된 프로젝트</h4>
           <hr />
-          <ProjectListView fetchUrl={`/user/project/${studentNumber}`} useCutout={false} />
+          <ProjectListView fetchUrl={`/user/project/${studentNumber}`} />
         </div>
       </Col>
     </Row>
@@ -43,7 +43,7 @@ function UnauthMainPage() {
           <div className="p-2" style={{ border: "1px solid lightgray" }}>
             <h4 className="text-center">이번 분기의 프로젝트</h4>
             <hr />
-            <ProjectListView fetchUrl={`/project/list?period=${getCurrentPeriod()}`} />
+            <ProjectListView fetchUrl={`/project/list?period=${getCurrentPeriod()}`} useCutout />
           </div>
         </Col>
       </Row>

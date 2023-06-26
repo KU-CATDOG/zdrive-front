@@ -10,7 +10,7 @@ function ProjectListView({
   fetchUrl = "/project/list?period=2023-1",
   cutoutCount = 5,
   listProcessing = (prjList) => prjList,
-  useCutout = true,
+  useCutout = false,
 }) {
   const location = useLocation();
   const navigate = useNavigate();
