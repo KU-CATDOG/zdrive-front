@@ -92,6 +92,7 @@ function ProjectEditPage() {
       })
       .finally(() => {
         setEditSubmited(false);
+        navigate(`${PATHS.project.detail}/${id}`);
       });
   }
 
